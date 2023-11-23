@@ -1,5 +1,6 @@
 import 'package:expense_tracker/Model/expenses.dart';
 import 'package:expense_tracker/Screens/Home/displaylist.dart';
+import 'package:expense_tracker/Screens/NewExpense/newexpense.dart';
 
 import 'package:flutter/material.dart';
 
@@ -7,10 +8,10 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _MyWidgetState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MyWidgetState extends State<Home> {
+class _HomeState extends State<Home> {
   final List<Expense> addedexpenses = [
     Expense(
         title: 'Flutter Course',
@@ -26,7 +27,8 @@ class _MyWidgetState extends State<Home> {
   ];
 
   void _openaddexpenseoverlay() {
-    showAdaptiveDialog(context: context, builder: (ctx) => const Text('hi'));
+    showModalBottomSheet(
+        context: context, builder: (ctx) => const NewExpense());
   }
 
   @override
