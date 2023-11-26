@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:expense_tracker/Model/expenses.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -12,6 +13,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titlecontroller = TextEditingController();
   final _amountcontroller = TextEditingController();
   DateTime? _selectedDate;
+  Category _selectedCategory = Category.food;
 
   void _showDate() async {
     final pickedDate = await showDatePicker(
@@ -81,10 +83,27 @@ class _NewExpenseState extends State<NewExpense> {
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
           Row(
             children: [
+              DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values
+                      .map((item) => DropdownMenuItem(
+                            value: item,
+                            child: Text(item.name),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) {
+                      return;
+                    }
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  }),
+              const Spacer(),
               TextButton(
                 onPressed: () {},
                 child: const Text('Cancel'),
