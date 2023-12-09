@@ -13,6 +13,10 @@ class DisplayList extends StatelessWidget {
     return ListView.builder(
         itemCount: addedexpenses.length,
         itemBuilder: (ctx, index) => Dismissible(
+              background: Container(
+                color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              ),
               key: ValueKey(addedexpenses[index]),
               onDismissed: (direction) {
                 onRemoveExpense(addedexpenses[index]);
@@ -21,6 +25,7 @@ class DisplayList extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(addedexpenses[index].title),
                       const SizedBox(
@@ -30,19 +35,17 @@ class DisplayList extends StatelessWidget {
                         children: [
                           Text('\$${addedexpenses[index].amount.toString()}'),
                           const Spacer(),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                //  Icon(categoryIcons[addedexpenses[index].category]),
-                                Icon(categoryIcons[
-                                    addedexpenses[index].category]),
+                          Row(
+                            children: [
+                              //  Icon(categoryIcons[addedexpenses[index].category]),
+                              Icon(
+                                  categoryIcons[addedexpenses[index].category]),
 
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(addedexpenses[index].dateformatter),
-                              ],
-                            ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(addedexpenses[index].dateformatter),
+                            ],
                           ),
                         ],
                       )
