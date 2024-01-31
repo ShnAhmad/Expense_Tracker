@@ -10,6 +10,7 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
+  final FocusNode _focusNode = FocusNode();
   final _titlecontroller = TextEditingController();
   final _amountcontroller = TextEditingController();
   DateTime? _selectedDate;
@@ -65,6 +66,8 @@ class _NewExpenseState extends State<NewExpense> {
           date: _selectedDate!,
           category: _selectedCategory),
     );
+   Navigator.pop(context);
+
   }
 
   @override
@@ -88,6 +91,8 @@ class _NewExpenseState extends State<NewExpense> {
               Expanded(
                 child: TextField(
                   controller: _amountcontroller,
+                  focusNode: _focusNode,
+                   autofocus: false,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     prefix: Text('\$'),

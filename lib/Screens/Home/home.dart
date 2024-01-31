@@ -12,19 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Expense> addedexpenses = [
-    Expense(
-        title: 'Flutter Course',
-        amount: 1500,
-        date: DateTime.now(),
-        category: Category.leisure),
-    Expense(
-      title: 'Java Course',
-      amount: 1450,
-      category: Category.work,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Expense> addedexpenses = [];
 
   void _openaddexpenseoverlay() {
     showModalBottomSheet(
@@ -81,7 +69,6 @@ class _HomeState extends State<Home> {
       ),
       body: Column(
         children: [
-          const Text('Chart'),
           Expanded(child: mainContant),
         ],
       ),
