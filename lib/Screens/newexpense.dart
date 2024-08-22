@@ -46,13 +46,13 @@ class _NewExpenseState extends State<NewExpense> {
         builder: (ctx) => AlertDialog(
           title: const Text('Invalid Input'),
           content: const Text(
-              'Please make sure a valid amount,title and date was entered'),
+              'Please make sure a valid amount, title, and date was entered'),
           actions: [
             TextButton(
                 onPressed: () {
                   Navigator.pop(ctx);
                 },
-                child: const Text('Okey'))
+                child: const Text('Okay'))
           ],
         ),
       );
@@ -66,70 +66,94 @@ class _NewExpenseState extends State<NewExpense> {
           date: _selectedDate!,
           category: _selectedCategory),
     );
-   Navigator.pop(context);
-
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final keyboardSpace= MediaQuery.of(context).viewInsets.bottom;       
-    return SizedBox(
-      height: double.infinity,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 50, 20, keyboardSpace + 20),
-          child: Column(
-            children: [
-              TextField(
-                controller: _titlecontroller,
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Title'),
-                ),
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.blue.shade100, Colors.purple.shade100],
+        ),
+      ),
+      child: SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 50, 20, keyboardSpace + 20),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _amountcontroller,
-                      focusNode: _focusNode,
-                       autofocus: false,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        prefix: Text('\$'),
-                        label: Text('Amount'),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Add New Expense',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: _titlecontroller,
+                      maxLength: 50,
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        _selectedDate == null
-                            ? 'No Date Selected'
-                            : DateFormat.yMd().format(_selectedDate!).toString(),
-                      ),
-                      IconButton(
-                        onPressed: _showDate,
-                        icon: const Icon(Icons.calendar_today),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                children: [
-                  DropdownButton(
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _amountcontroller,
+                            focusNode: _focusNode,
+                            autofocus: false,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              prefixText: '\$',
+                              labelText: 'Amount',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey.shade100,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        ElevatedButton.icon(
+                          onPressed: _showDate,
+                          icon: const Icon(Icons.calendar_today),
+                          label: Text(
+                            _selectedDate == null
+                                ? 'Select Date'
+                                : DateFormat.yMd().format(_selectedDate!),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    DropdownButtonFormField<Category>(
                       value: _selectedCategory,
                       items: Category.values
                           .map((item) => DropdownMenuItem(
@@ -138,27 +162,52 @@ class _NewExpenseState extends State<NewExpense> {
                               ))
                           .toList(),
                       onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
+                        if (value == null) return;
                         setState(() {
                           _selectedCategory = value;
                         });
-                      }),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancel'),
-                  ),
-                  ElevatedButton(
-                    onPressed: saveExpanse,
-                    child: const Text('Save Expense'),
-                  )
-                ],
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Category',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel'),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: saveExpanse,
+                          child: const Text('Save Expense'),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
         ),
       ),
